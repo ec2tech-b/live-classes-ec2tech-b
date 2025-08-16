@@ -30,4 +30,4 @@
 
     - name: Task variable
       ansible.builtin.debug:
-        msg: {{ URL_CUSTOM }}         
+        msg: "{{ URL_CUSTOM }}"        
