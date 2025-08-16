@@ -1,0 +1,38 @@
+#iterations of tasks until the condition fails
+
+# for (i=0; i<5; i++) {
+# }
+
+# a= [apple, mango, banana]
+# #  for i in len(a):
+# #    print('Fruit Name' + a[i])
+
+
+
+# I am learning Ansible
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+# print("I am learning Ansible")
+
+# i=1
+# for i in range(10):
+#  print("I am learning Ansible")
+
+
+#loop
+
+- name: Loop Demo
+  hosts: localhost
+  tasks:
+    - name: Print Fruits
+      ansible.builtin.debug:
+        msg: "Fruit Name - {{ item }}"
+      loop:
+        - apple
+        - banana
+        - orange
