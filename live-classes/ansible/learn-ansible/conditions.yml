@@ -1,0 +1,16 @@
+#if/else
+
+#when
+
+- name: Demo on Conditions
+  hosts: localhost
+  tasks:
+    - name: Vegetables
+      ansible.builtin.debug:
+        msg: vegetables
+      when: type == "vegetables"
+
+    - name: Fruits
+      ansible.builtin.debug:
+        msg: fruits
+      when: type == "fruits"  

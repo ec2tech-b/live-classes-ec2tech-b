@@ -31,3 +31,6 @@
     - name: Task variable
       ansible.builtin.debug:
         msg: "{{ URL_CUSTOM }}"        
+
+
+# ansible-playbook -e "URL_CUSTOM='google.com test'" vars.yml        
