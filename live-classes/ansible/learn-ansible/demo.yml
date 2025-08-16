@@ -1,0 +1,9 @@
+- name: Print sample text
+  hosts: localhost
+  tasks:
+   - name: Print statement
+     ansible.builtin.debug:
+       msg: I like my country
+   - name: Print statement
+     ansible.builtin.debug:
+       msg: I like my country  

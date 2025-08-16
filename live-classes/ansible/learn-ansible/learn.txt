@@ -1,0 +1,71 @@
+ansible all -i 54.160.213.36, -e "ansible_user=ec2-user ansible_password=DevOps321" -m ping
+
+ansible all -i 54.160.213.36, -e "ansible_user=ec2-user ansible_password=DevOps321" -m dnf
+
+ansible all -i 54.160.213.36, -e "ansible_user=ec2-user ansible_password=DevOps321" -m copy
+
+
+
+Ansible-Playbooks (YAML) --- .yaml or .yml , YAML also follow parental hierarchy method.
+
+a: 10
+
+
+b: [10,20,30]   - How are values are read ????
+ Indexing [ postion of the values]
+
+b[0]=10 , b[1] =20 , b[2] =30
+
+b:
+    - 10
+    - 20
+
+b:
+    akas: test
+        
+    sister: cool
+
+b[akas] = test
+b[sister] = cool  
+
+b:
+ - akas:
+    - school: xyr
+    - name :
+ - sister:
+    - school: uiz
+    - name: 
+
+c:
+ - yxy:
+    - school: xyr
+ - sister:
+    - school: uiz    
+
+---
+
+---
+  hosts: all
+- name: Run a sample playbook
+  tasks:
+   - name: Execute command
+     command: apt-get install nginx 
+
+   - name: Execute command
+     command: apt-get install nginx 
+
+   - name: Execute command
+     command: apt-get install nginx 
+
+- name: Run a second sample playbook
+  tasks:
+   - name: Execute command
+     command: apt-get install nginx 
+
+   - name: Execute command
+     command: apt-get install nginx 
+
+   - name: Install the latest version of Apache
+     ansible.builtin.dnf:
+        name: httpd
+        state: latest
