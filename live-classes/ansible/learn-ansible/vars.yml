@@ -30,7 +30,15 @@
 
     - name: Task variable
       ansible.builtin.debug:
-        msg: "{{ URL_CUSTOM }}"        
+        msg: "{{ URL_CUSTOM }}"   
+
+    - name: demo
+      ansible.builtin.shell: uptime
+      register: OUTPUT 
+      
+    - name: Print OUTPUT of previous task
+      ansible.builtin.debug:
+        msg: "{{ OUTPUT.stdout }}"              
 
 
 # ansible-playbook -e "URL_CUSTOM='google.com test'" vars.yml        
