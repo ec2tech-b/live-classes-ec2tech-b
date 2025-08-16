@@ -5,3 +5,8 @@
       ansible.builtin.copy:
         src: example.conf
         dest: /tmp/example-copy.conf
+
+    - name: Template example.conf
+      ansible.builtin.template:
+        src: example.conf
+        dest: /tmp/example-template.conf      
