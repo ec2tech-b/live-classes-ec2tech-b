@@ -1,0 +1,55 @@
+Windows Slave:
+
+pip3 install pywinrm requests-ntlm
+
+inventory.txt
+
+[windows]
+winhost ansible_host=54.85.76.129
+
+[windows:vars]
+ansible_user=Administrator
+ansible_password=rkt&ICFjm3rv*!*Jdjz5WyXLVFXf8iG!
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_port=5985
+ansible_winrm_server_cert_validation=ignore
+
+
+On the windows machine:
+
+# Enable WinRM
+winrm quickconfig -q
+
+# Set values via WSMan provider (works cleanly in PowerShell)
+Set-Item -Path WSMan:\localhost\Shell\MaxMemoryPerShellMB -Value 512
+
+# Lab/testing only:
+# Set-Item -Path WSMan:\localhost\Service\AllowUnencrypted -Value $true
+# Set-Item -Path WSMan:\localhost\Service\Auth\Basic -Value $true
+
+netsh advfirewall firewall add rule name="Ansible WinRM 5985" dir=in action=allow protocol=TCP localport=5985
+
+
+========================
+
+[ ec2-user@master ~ ]$ ansible windows -i in.txt -m win_ping
+winhost | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+
+34.234.65.251 | 172.31.19.231 | t2.micro | null
+[ ec2-user@master ~ ]$ ansible windows -i in.txt -m win_command -a "ipconfig"
+winhost | CHANGED | rc=0 >>
+
+Windows IP Configuration
+
+
+Ethernet adapter Ethernet:
+
+   Connection-specific DNS Suffix  . : ec2.internal
+   Link-local IPv6 Address . . . . . : fe80::53f4:9dc1:f47e:faab%3
+   IPv4 Address. . . . . . . . . . . : 172.31.36.212
+   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+   Default Gateway . . . . . . . . . : 172.31.32.1
