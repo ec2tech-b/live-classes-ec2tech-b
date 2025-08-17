@@ -1,0 +1,18 @@
+ec2 ---> aws
+
+1. define a .tf file
+2. write a terraform resource object
+
+resource "resourcename as defined by terraform" "local resource identification name" {
+    arguments .....
+}
+
+resource "aws_instance" "test" {
+    arguments ...
+}
+
+
+
+objectname "name defineed by terraform" {
+    
+}
