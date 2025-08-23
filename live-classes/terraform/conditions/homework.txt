@@ -1,0 +1,5 @@
+YOu have to take input from an user on whether to create an ec2 aws_instance , 
+if yes then take the input of the 
+instance_type from the user and (define a logic that if user gives an instance_type of t2 family , 
+it should
+create an instance of t3.micro or else the instance_type user has provided)
