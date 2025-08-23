@@ -41,6 +41,11 @@ output "z_x" {
     value = var.z_map["x"]
 }
 
+variable "Name" {}
+
+output "Name" {
+    value = var.Name
+}
 
 
 
