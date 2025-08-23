@@ -17,6 +17,12 @@ variable "z_map" {
    }
 }
 
+variable "env" {}
+
+output "env" {
+    value = var.env
+}
+
 
 
 output "x" {
@@ -34,3 +40,12 @@ output "y_1" {
 output "z_x" {
     value = var.z_map["x"]
 }
+
+
+
+
+
+
+# 1. var.tf
+# 2. *.tfvars
+# 3. *.auto.tfvars
