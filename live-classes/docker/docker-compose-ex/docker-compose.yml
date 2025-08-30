@@ -1,0 +1,11 @@
+version: '3'
+services:
+  sample1:
+    image: nginx:v1
+    ports:
+    - "8083:80"
+  nginxapp21:
+    image: nginx:v1
+    ports:
+    - "8086:80"
+    

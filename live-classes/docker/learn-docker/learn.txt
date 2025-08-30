@@ -66,6 +66,15 @@ docker build -f entry.Dockerfile --tag e:v1 .
 
 docker run e:v1 "Hello World during docker run from ENTRY imagerun"
 
+==========================================
+
+==============================
+
+FROM ubuntu
+ENTRYPOINT ["echo"]
+CMD ["You can control this via runtime too"]
+
+
 
 ==============================
 
@@ -79,3 +88,65 @@ docker run e:v1 "Hello World during docker run from ENTRY imagerun"
 docker run -it -d --name nginxwebserver1 -p 8083:80 nginx:v2
 
 =======================================================================
+
+
+
+docker run ..........
+ run 100 containers
+
+Docker Compose Files --> Running multi Stack Docker conatiners
+These are simple YAML files
+
+docker run -it -d --name nginx4 -p 8085:80 app:v1 
+
+version: '3'
+services:  -- stands for holding the entire stack of  the containers list
+  container 1:
+    image: app:v1
+    ports:
+    - "8085:80"
+    name: nginx4
+    command : 
+  container 2:
+    image: image:v2
+    ports:
+    - "8084:80"
+    env:
+    - email: akas@gmail.command
+    - config: test
+    volumes:
+    - db_data:/app
+    restart:  always
+  container 3:
+    image: image:v3
+    ports:
+    - "8084:80"
+    env:
+    - email: akas@gmail.command
+    - config: test
+    volumes:
+    - db_data:/app
+    restart:  always  
+
+docker-compose.yml  
+Only One command to start,stop, restart all containers (docker-compose up -d/down )
+
+
+
+==========================================
+
+Step 1: Run this command to download the latest version of Docker Compose.
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.24.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+
+
+Step 2: Apply execute permissions to the binary
+sudo chmod +x /usr/local/bin/docker-compose
+
+
+
+Step 3: Run the following command to test the installation.
+docker-compose --version
+
+
+
