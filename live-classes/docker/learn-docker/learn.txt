@@ -148,5 +148,29 @@ sudo chmod +x /usr/local/bin/docker-compose
 Step 3: Run the following command to test the installation.
 docker-compose --version
 
+======
 
+docker run -it -d --mount source=my-vol,destination=/var/www/html --name app -p 8083:80 n:v1
+
+docker run -it -d --mount source=my-vol,destination=/app --name app -p 8083:80 n:v1
+
+
+docker run -it -d -v /home/ubuntu/app-volume:/app ubuntu
+
+=========
+
+
+1. remove unncessary layers from docker image .
+2. Use multi keyword layer structure
+
+RUN apt-get update
+RUN apt-get install nginx -y
+
+RUN apt-get update && apt-get install nginx -y
+
+3. Using Multi Staged Images
+
+* layers to build an image -
+ 1 st layer will have all the major  components that is required to build my application
+ 2 nd layer , we will only take the necessary application file from the first layer to run the application
 
