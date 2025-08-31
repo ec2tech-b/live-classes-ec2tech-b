@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  lables:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.4
+    ports:
+    - containerPort: 80
+  - name: frontend
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+    env:
+     - name: COLOR
+       value: blue
+
+*.yaml 
