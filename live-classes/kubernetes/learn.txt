@@ -23,3 +23,39 @@ spec:
 ###############
 
 Namespace : A sechuled box inside your cluster.
+
+
+kubectl --> command line for kubernetes
+
+Commands to connect to EKS
+1. ADD adminstrator role to the ec2 machine that u are trying to connect.
+
+2. aws configure and Create your AWS Access Keys.
+
+3. aws eks update-kubeconfig --name my-eks-cluster --region us-east-1
+
+
+
+===========================================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-redis-config
+data:
+  redis-config: |
+    maxmemory 2mb
+    maxmemory-policy allkeys-lru
+
+alternative:
+------
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: special-config
+  namespace: default
+data:
+  special.how: very   
+  redis-config.maxmemory: 2mb
+  redis-config.maxmemory-policy: allkeys 
