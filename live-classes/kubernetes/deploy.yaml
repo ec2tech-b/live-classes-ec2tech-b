@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+  namespace: app-1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable-bookworm-perl
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              memory: "80Mi"
+              cpu: "20m"
+            limits:
+              memory: "100Mi"
+              cpu: "50m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-nginx-service
+  labels:
+    app: nginx
+  namespace: app-1
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
