@@ -19,3 +19,7 @@ spec:
        value: blue
 
 *.yaml 
+
+###############
+
+Namespace : A sechuled box inside your cluster.
