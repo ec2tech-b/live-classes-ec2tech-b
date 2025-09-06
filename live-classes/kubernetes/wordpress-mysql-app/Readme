@@ -1,0 +1,6 @@
+Do apply this tag to all your AWS EKS subnets:
+kubernetes.io/cluster/<your-eks-clustername> shared
+
+example:
+kubernetes.io/cluster/my-eks-cluster shared
+kubernetes.io/role/elb 1
