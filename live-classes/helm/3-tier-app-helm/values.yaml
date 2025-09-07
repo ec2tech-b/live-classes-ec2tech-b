@@ -16,3 +16,16 @@ backend:
 frontend:
   image: apatranobis59/frontend:2.0
   port: 5000
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  className: alb
+  path: /
+  annotations:
+    scheme: internet-facing
+    targetType: ip
+    listenPorts: '[{"HTTP":80}]'
+
