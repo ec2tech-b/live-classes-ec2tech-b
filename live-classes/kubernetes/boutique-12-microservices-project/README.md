@@ -6,7 +6,7 @@ Google uses this application to demonstrate how developers can modernize enterpr
 
 ## Architecture
 
-**Online Boutique** is composed of 11 microservices written in different
+**Online Boutique** is composed of 12 microservices written in different
 languages that talk to each other over gRPC.
 
 [![Architecture of
