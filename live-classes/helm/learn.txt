@@ -63,6 +63,9 @@ helm template ./nginx-chart/
 
 ===========================
 
+helm install flask-demo ./flask-chart
+
+
 helm upgrade my-nginx ./nginx-chart --set image.tag=1.21.6
 
 # Check history
