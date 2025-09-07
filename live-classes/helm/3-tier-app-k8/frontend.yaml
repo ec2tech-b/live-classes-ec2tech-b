@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: apatranobis59/frontend:1.0
+          image: apatranobis59/frontend:2.0
           env:
             - name: API_URL
               value: http://backend:5000
