@@ -107,3 +107,61 @@ spec:
                 name: frontend
                 port:
                   number: 80
+
+===============================
+### 1. MAP DOMAINS
+
+Steps in Hostinger (or any DNS provider):
+
+Login to Hostinger → DNS Zone editor.
+
+Add a CNAME record:
+
+Host/Name: www
+
+Type: CNAME
+
+Value/Target: k8s-app2-frontend-d5b40cbbb0-260948436.us-east-1.elb.amazonaws.com
+
+TTL: 300 seconds (or lowest available)
+
+This maps www.ec2tech.in → ALB.
+
+### 2. HTTPS CERT
+
+ACM = AWS Certificate Manager, fully managed SSL/TLS certificates.
+
+Steps:
+
+Request Certificate in ACM
+
+Go to AWS Console → ACM (us-east-1 region)
+
+Click Request a Certificate → Public Certificate
+
+Add domain names:
+
+www.ec2tech.in
+
+ec2tech.in (optional root domain)
+
+Validation method: DNS validation
+
+ACM gives you a CNAME record → Add this CNAME in Hostinger DNS.
+
+Wait until ACM status is Issued.
+
+Update Ingress Annotations
+Once you have the Certificate ARN, add it to your Ingress
+
+### 3. Add AMAZON CA TO DNS PROVIDER 
+
+Add only these CAA records for ACM:
+
+Type	Name	Priority	Content
+CAA	@	0	0 issue "amazon.com"
+CAA	@	0	0 issue "amazontrust.com"
+
+
+
+
