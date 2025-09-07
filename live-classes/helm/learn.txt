@@ -22,3 +22,32 @@ Helm chart directory structure:
 2. values.yaml → Default values
 
 3. templates/ → Kubernetes manifests with placeholders
+
+====================================
+
+helm create nginx-chart
+
+# Explore files
+tree nginx-chart/
+
+# Deploy it
+helm install my-nginx ./nginx-chart
+kubectl get pods
+
+
+=========================================
+
+Helm templates use Go templating.
+
+
+_helpers.tpl --> It stores reusable template snippets (written in Go templating language).
+
+Think of it as functions in programming → instead of repeating the same logic in multiple YAML files, you define it once in _helpers.tpl and then call it anywhere.
+
+Why Use _helpers.tpl?
+
+Avoid Repetition – Same label logic can be reused across Deployment, Service, Ingress, etc.
+
+Consistency – Ensures all resources follow the same naming/labels.
+
+Maintainability – If you need to change naming/labels, you do it in one place.
