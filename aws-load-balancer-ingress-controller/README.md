@@ -1,24 +1,22 @@
-AWS Load Balancer Controller Setup on EKS
+# AWS Load Balancer Controller on EKS
 
-This guide walks you through installing and configuring the AWS Load Balancer Controller on your EKS cluster, and deploying an Ingress resource for your frontend service.
+This guide explains how to install and configure the AWS Load Balancer Controller on your EKS cluster, and then create an Ingress for your frontend service.
 
-🚀 Prerequisites
+---
 
-An EKS cluster is up and running.
+## Step 1: Install AWS Load Balancer Controller via Helm
 
-IAM OIDC provider associated with your cluster.
+### Prerequisites
+- EKS cluster is up and running.
+- IAM OIDC provider associated with your cluster.
+- `eksctl` and `kubectl` are configured.
+- Helm CLI installed locally.
 
-eksctl and kubectl installed and configured.
+---
 
-Helm CLI installed locally.
-
-AWS CLI configured with credentials.
-
-Step 1: Install eksctl
-
-Download and install the latest eksctl:
-
-# For ARM systems, set ARCH to: arm64, armv6, or armv7
+### Install eksctl
+```bash
+# for ARM systems, set ARCH to: arm64, armv6 or armv7
 ARCH=amd64
 PLATFORM=$(uname -s)_$ARCH
 
@@ -30,29 +28,26 @@ curl -sL "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_ch
 tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 sudo install -m 0755 /tmp/eksctl /usr/local/bin && rm /tmp/eksctl
 
-Step 2: Enable IAM OIDC Provider
+---
 
-Associate your cluster with an IAM OIDC provider:
-
+###  Enable IAM OIDC provider
 eksctl utils associate-iam-oidc-provider \
   --cluster eks \
   --region us-east-1 \
   --approve
-
-
-Verify:
-
+  
 aws eks describe-cluster \
   --name eks \
   --region us-east-1 \
   --query "cluster.identity.oidc.issuer" \
-  --output text
+  --output text  
 
 
-👉 In the IAM console → Identity Providers, you should now see an entry with that OIDC issuer.
 
-Step 3: Configure AWS Load Balancer Controller
-1. Create IAM Policy
+Verify in IAM console → Identity Providers. You should see one with that issuer URL.
+
+###  Configure AWS Load Balancer Controller
+1. Create IAM policy
 curl -o iam_policy.json \
   https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.13.3/docs/install/iam_policy.json
 
@@ -60,16 +55,16 @@ aws iam create-policy \
   --policy-name AWSLoadBalancerControllerIAMPolicy \
   --policy-document file://iam_policy.json
 
-2. Create IAM Role for ServiceAccount
+2. Create IAM role for ServiceAccount
 eksctl create iamserviceaccount \
-  --cluster eks \
+  --cluster <CLUSTER_NAME> \
   --namespace kube-system \
   --name aws-load-balancer-controller \
   --attach-policy-arn arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AWSLoadBalancerControllerIAMPolicy \
   --approve
 
 
-This creates the aws-load-balancer-controller ServiceAccount annotated with the correct IAM role.
+This creates the aws-load-balancer-controller ServiceAccount with IAM permissions.
 
 3. Install via Helm
 helm repo add eks https://aws.github.io/eks-charts
@@ -83,15 +78,14 @@ helm upgrade --install aws-load-balancer-controller eks/aws-load-balancer-contro
   --set region=<your-region> \
   --set vpcId=<your-vpc-id>
 
-4. Verify Installation
+4. Verify installation
 kubectl get deployment aws-load-balancer-controller -n kube-system
 
-Step 4: Deploy Ingress Resource
+Step 2: Create Ingress Resource
 
-Once the controller is installed, create an Ingress to expose your frontend service.
+Once the controller is installed, you can create an Ingress that directs traffic from an ALB to the frontend service.
 
-ingress.yaml
-
+Example Ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -113,18 +107,3 @@ spec:
                 name: frontend
                 port:
                   number: 80
-
-
-Apply it:
-
-kubectl apply -f ingress.yaml
-
-🔎 How It Works
-
-AWS Load Balancer Controller provisions an ALB (internet-facing).
-
-The ALB routes HTTP traffic on / to the frontend service.
-
-The frontend service forwards requests to its pod endpoints.
-
-✅ Your EKS cluster now has a fully functional AWS Load Balancer Controller with an Ingress exposing your frontend application.
