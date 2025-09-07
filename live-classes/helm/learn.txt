@@ -51,3 +51,32 @@ Avoid Repetition – Same label logic can be reused across Deployment, Service, 
 Consistency – Ensures all resources follow the same naming/labels.
 
 Maintainability – If you need to change naming/labels, you do it in one place.
+
+
+============================
+
+how Helm generates manifests ?
+
+helm template ./nginx-chart/
+
+
+
+===========================
+
+helm upgrade my-nginx ./nginx-chart --set image.tag=1.21.6
+
+# Check history
+helm history my-nginx
+
+# Rollback
+helm rollback my-nginx 1
+
+# Uninstall
+helm uninstall my-nginx
+
+
+======
+
+how to pull helm tar files ?
+
+helm pull oci://registry-1.docker.io/bitnamicharts/nginx --version 21.1.23
