@@ -4,7 +4,7 @@ metadata:
   name: backend
   namespace: app-2
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: backend
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: apatranobis59/backend:1.0
+          image: apatranobis59/backend:2.0
           env:
             - name: DB_HOST
               value: mysql
@@ -42,3 +42,5 @@ spec:
     app: backend
   ports:
     - port: 5000
+      targetPort: 5000
+  type: ClusterIP

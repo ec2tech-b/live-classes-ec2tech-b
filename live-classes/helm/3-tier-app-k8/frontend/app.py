@@ -17,3 +17,7 @@ def add_user():
     email = request.form["email"]
     requests.post(f"{BACKEND_URL}/users", json={"name": name, "email": email})
     return redirect("/")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
