@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add User</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    form { margin-bottom: 20px; }
+    input, button { padding: 8px; margin: 5px; }
+    .msg { margin-top: 15px; color: green; }
+  </style>
+</head>
+<body>
+  <h2>Add a New User</h2>
+  <form method="POST">
+    <input type="text" name="name" placeholder="Enter name" required>
+    <input type="email" name="email" placeholder="Enter email" required>
+    <button type="submit">Add User</button>
+  </form>
+
+  {% if message %}
+  <div class="msg">{{ message }}</div>
+  {% endif %}
+</body>
+</html>

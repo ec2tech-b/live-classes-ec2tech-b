@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: apatranobis59/backend:2.0
+          image: apatranobis59/backend:3.0
           env:
             - name: DB_HOST
               value: mysql
