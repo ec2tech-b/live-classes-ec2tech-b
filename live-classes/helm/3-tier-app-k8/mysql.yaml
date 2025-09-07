@@ -23,6 +23,7 @@ spec:
   resources:
     requests:
       storage: 5Gi
+  storageClassName: gp2    
 
 ---
 apiVersion: v1
