@@ -1,0 +1,24 @@
+# Deploy nginx manually with YAML
+kubectl create deployment nginx --image=nginx
+kubectl expose deployment nginx --port=80 --type=NodePort
+
+# Deploy nginx quickly with Helm
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm search repo nginx
+
+helm install my-nginx bitnami/nginx
+
+
+
+=========================
+
+3 main objects while creating a Helm Chart :
+
+Helm chart directory structure:
+
+1.Chart.yaml → Metadata
+
+2. values.yaml → Default values
+
+3. templates/ → Kubernetes manifests with placeholders
