@@ -20,6 +20,26 @@ data:
   mysql-root-password: bXlzcWxyb290   # base64 of 'mysqlroot'
   mysql-password: bXlzcWw=           # base64 of 'mysql'
 
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+  namespace: app-2
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS mydb;
+    USE mydb;
+    CREATE TABLE IF NOT EXISTS users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(100),
+      email VARCHAR(100)
+    );
+    INSERT INTO users (name, email) VALUES ('Alice', 'alice@example.com');
+    INSERT INTO users (name, email) VALUES ('Bob', 'bob@example.com');
+
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -27,10 +47,10 @@ metadata:
   name: mysql
   namespace: app-2
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: mysql
-  replicas: 1
   template:
     metadata:
       labels:
@@ -59,10 +79,16 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mysql-storage
+            - name: mysql-initdb
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: mysql-storage
           persistentVolumeClaim:
             claimName: mysql-pvc
+        - name: mysql-initdb
+          configMap:
+            name: mysql-initdb-config
+
 
 ---
 apiVersion: v1
