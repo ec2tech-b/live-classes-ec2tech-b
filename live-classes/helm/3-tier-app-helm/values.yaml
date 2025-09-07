@@ -1,0 +1,18 @@
+namespace: app-2
+
+mysql:
+  image: mysql:8.0
+  rootPassword: bXlzcWxyb290
+  user: user1
+  password: bXlzcWw=
+  database: studentdb
+  storageClass: gp2
+  storageSize: 5Gi
+
+backend:
+  image: apatranobis59/backend:3.0
+  port: 5000
+
+frontend:
+  image: apatranobis59/frontend:2.0
+  port: 5000

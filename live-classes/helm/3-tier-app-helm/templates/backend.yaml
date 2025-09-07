@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: {{ include "3tier.namespace" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: backend
+        image: {{ .Values.backend.image }}
+        env:
+          - name: DB_HOST
+            value: mysql
+          - name: DB_USER
+            value: {{ .Values.mysql.user }}
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: mysql-password
+          - name: DB_NAME
+            value: {{ .Values.mysql.database }}
+        ports:
+        - containerPort: {{ .Values.backend.port }}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: {{ include "3tier.namespace" . }}
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: {{ .Values.backend.port }}
+      targetPort: {{ .Values.backend.port }}
+  type: ClusterIP
