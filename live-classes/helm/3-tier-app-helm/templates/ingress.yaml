@@ -2,8 +2,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "mychart.fullname" . }}-ingress
-  namespace: {{ .Release.Namespace }}
+  name: frontend-ingress
+  namespace: {{ include "3tier.namespace" . }}
   annotations:
     alb.ingress.kubernetes.io/scheme: {{ .Values.ingress.annotations.scheme }}
     alb.ingress.kubernetes.io/target-type: {{ .Values.ingress.annotations.targetType }}
@@ -17,7 +17,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "mychart.fullname" . }}-frontend
+                name: frontend
                 port:
                   number: {{ .Values.service.port }}
 {{- end }}
