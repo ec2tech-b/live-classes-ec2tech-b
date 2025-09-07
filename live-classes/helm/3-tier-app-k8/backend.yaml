@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: mydockerhub/flask-backend:1.0
+          image: apatranobis59/backend:1.0
           env:
             - name: DB_HOST
               value: mysql
