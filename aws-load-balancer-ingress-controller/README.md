@@ -162,6 +162,35 @@ Type	Name	Priority	Content
 CAA	@	0	0 issue "amazon.com"
 CAA	@	0	0 issue "amazontrust.com"
 
+===================================== 
+
+Update the Ingress with the ACM cert details
+
+Example:
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: app-2
+  annotations:
+    # kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80}]'
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+
+
 
 
 
