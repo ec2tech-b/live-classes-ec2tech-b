@@ -47,3 +47,10 @@ metadata:
     eks.amazonaws.com/role-arn: arn:aws:iam::<AWS_ACCOUNT_ID>:role/AmazonEKSLoadBalancerControllerRole
 
 kubectl apply -f sa-lb-controller.yaml
+
+
+Update the "AmazonEKSLoadBalancerControllerRole" with the new OIDC Identity Provider.
+
+kubectl rollout restart deploy aws-load-balancer-controller -n kube-system
+
+kubectl get sa aws-load-balancer-controller -n kube-system

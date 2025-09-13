@@ -1,0 +1,30 @@
+pipeline {
+
+    agent { label 'linux-agent' }  // Runs on a specific agent with label 'my-agent'
+
+    agent any  // Runs on any available Jenkins agent
+
+    tools .....{ }
+
+    stages {
+        stage ('Git Clone') {
+            steps {
+                git clone https:
+            }
+        }
+
+        stage ('Run a Linux Command') {
+            steps {
+                mkdir deployment
+                cd deployment
+                touch a.java
+            }
+        }
+
+        stage ('Run a Terraform Task') {
+            steps {
+               terraform init
+            }
+        }
+    }
+}
