@@ -11,7 +11,8 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - http:
+    - host: www.ec2tech.in
+      http:
         paths:
           - path: /
             pathType: Prefix
@@ -20,3 +21,4 @@ spec:
                 name: frontend
                 port:
                   number: 80
+

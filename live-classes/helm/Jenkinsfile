@@ -1,0 +1,77 @@
+pipeline {
+    agent any
+
+    environment {
+        // Set AWS region and cluster
+        AWS_REGION = 'us-east-1'
+        EKS_CLUSTER = 'eks'
+        HELM_CHART_PATH = './chart/myapp'
+        RELEASE_NAME = 'myapp'
+        NAMESPACE = 'app-2'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo "Checking out code..."
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                echo "Installing helm dependencies..."
+                sh """
+                helm repo add eks https://aws.github.io/eks-charts || true
+                helm repo update
+                """
+            }
+        }
+
+        stage('Helm Lint') {
+            steps {
+                echo "Linting helm chart..."
+                sh "helm lint ${HELM_CHART_PATH}"
+            }
+        }
+
+        stage('Helm Upgrade / Install') {
+            steps {
+                echo "Deploying app with Helm..."
+                sh """
+                helm upgrade --install ${RELEASE_NAME} ${HELM_CHART_PATH} \
+                    --namespace ${NAMESPACE} \
+                    --create-namespace \
+                    --set backend.image.tag=3.0 \
+                    --set frontend.image.tag=2.0 \
+                    --wait
+                """
+            }
+        }
+
+        stage('Verify Deployment') {
+            steps {
+                echo "Checking deployed resources..."
+                sh """
+                kubectl get all -n ${NAMESPACE}
+                kubectl get ingress -n ${NAMESPACE}
+                """
+            }
+        }
+
+        stage('Post Deployment Info') {
+            steps {
+                echo "Deployment completed. Access your frontend via the ingress hostname or ALB URL."
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment successful!'
+        }
+        failure {
+            echo 'Deployment failed!'
+        }
+    }
+}
